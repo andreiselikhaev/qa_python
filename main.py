@@ -2,40 +2,49 @@
 class BooksCollector:
 
     def __init__(self):
-        self.books_rating = {}
+        self.books_genre = {}
         self.favorites = []
+        self.genre = ['Фантастика', 'Ужасы', 'Детективы', 'Мультфильмы', 'Комедии']
+        self.genre_age_rating = ['Ужасы', 'Детективы']
 
-    # добавляем новую книгу и выставляем ей рейтинг 1
+    # добавляем новую книгу
     def add_new_book(self, name):
-        if not self.books_rating.get(name):
-            self.books_rating[name] = 1
+        if not self.books_genre.get(name) and 0 < len(name) < 41:
+            self.books_genre[name] = ''
 
-    # устанавливаем рейтинг книге (от 1 до 10)
-    def set_book_rating(self, name, rating):
-        if self.books_rating.get(name) and rating in range(1, 11):
-            self.books_rating[name] = rating
+    # устанавливаем книге жанр
+    def set_book_genre(self, name, genre):
+        if name in self.books_genre and genre in self.genre:
+            self.books_genre[name] = genre
 
-    # получаем рейтинг книги по ее имени
-    def get_book_rating(self, name):
-        return self.books_rating.get(name)
+    # получаем жанр книги по её имени
+    def get_book_genre(self, name):
+        return self.books_genre.get(name)
 
-    # выводим список книг с определенным рейтингом
-    def get_books_with_specific_rating(self, rating):
-        books_with_specific_rating = []
-        if self.books_rating and rating in range(1, 11):
-            for name, book_rating in self.books_rating.items():
-                if book_rating == rating:
-                    books_with_specific_rating.append(name)
+    # выводим список книг с определённым жанром
+    def get_books_with_specific_genre(self, genre):
+        books_with_specific_genre = []
+        if self.books_genre and genre in self.genre:
+            for name, book_genre in self.books_genre.items():
+                if book_genre == genre:
+                    books_with_specific_genre.append(name)
+        return books_with_specific_genre
 
-        return books_with_specific_rating
+    # получаем словарь books_genre
+    def get_books_genre(self):
+        return self.books_genre
 
-    # получаем словарь books_rating
-    def get_books_rating(self):
-        return self.books_rating
+    # возвращаем книги, подходящие детям
+    def get_books_for_children(self):
+        books_for_children = []
+        for name, genre in self.books_genre.items():
+            if genre not in self.genre_age_rating and genre in self.genre:
+                books_for_children.append(name)
+        return books_for_children
 
     # добавляем книгу в Избранное
     def add_book_in_favorites(self, name):
-        if self.books_rating.get(name):
+        if name in self.books_genre:
             if name not in self.favorites:
                 self.favorites.append(name)
 
